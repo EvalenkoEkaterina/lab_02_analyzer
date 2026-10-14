@@ -1,0 +1,8 @@
+{"timestamp": "2026-10-06T11:08:00+00:00", "level": "INFO", "source": "worker", "message": "Valid unicode: тест"}
+{"timestamp": "2026-10-06T11:09:00+00:00", "level": "CRITICAL", "source": "auth", "message": "Valid critical"}
+{"timestamp": "2026-10-06T11:10:00+00:00", "level": "ERROR", "source": "db", "message": "Connection lost"}
+{"timestamp": "2026-10-06T11:11:00+00:00", "level": "DEBUG", "source": "api", "message": "Request received"}
+{"timestamp": "2026-10-06T11:12:00+00:00", "level": "WARNING", "source": "cache", "message": "Cache miss"}
+{"timestamp": "2026-10-06T11:13:00+00:00", "level": "ERROR", "source": "db", "message": "Query timeout"}
+{"timestamp": "2026-10-06T11:14:00+00:00", "level": "INFO", "source": "worker", "message": "Задача выполнена"}
+{"timestamp": "2026-10-06T11:15:00+00:00", "level": "ERROR", "source": "auth", "message": "Invalid token"}
