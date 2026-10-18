@@ -1,4 +1,6 @@
-import json 
+import json
+
+
 def result_report(report, output_path):
     """
     Сохраняет итоговый отчёт в JSON-файл.

@@ -1,6 +1,8 @@
 from collections import Counter
-from .parsers import parse_csv, parse_jsonl
+
 from .errors import UnsupportedFormatError
+from .parsers import parse_csv, parse_jsonl
+
 
 def cr_stats():
     return {
@@ -44,10 +46,8 @@ def add_event(stats, event):
         stats["first_timestamp"] = timestamp
         stats["last_timestamp"] = timestamp
 
-    if timestamp < stats["first_timestamp"]:
-        stats["first_timestamp"] = timestamp
-    if timestamp > stats["last_timestamp"]:
-        stats["last_timestamp"] = timestamp
+    stats["first_timestamp"] = min(stats["first_timestamp"], timestamp)
+    stats["last_timestamp"] = max(stats["last_timestamp"], timestamp)
 
 def get_report(stats):
     """
@@ -132,3 +132,4 @@ def analyze(paths, file_format, skip_invalid=False):
             else:
                 add_event(stats, event)
     return get_report(stats)
+

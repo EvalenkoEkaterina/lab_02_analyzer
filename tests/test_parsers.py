@@ -1,7 +1,7 @@
 import pytest
 
-from streamstats.parsers import make_event, detect_separator, parse_csv, parse_jsonl
 from streamstats.errors import InvalidEventError, InvalidTimestampError
+from streamstats.parsers import detect_separator, make_event, parse_csv, parse_jsonl
 
 
 #положительный тест для make_event level

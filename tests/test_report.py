@@ -1,5 +1,7 @@
-from streamstats.report import result_report
 import json
+
+from streamstats.report import result_report
+
 
 def test_result_report(tmp_path):
     file = tmp_path / "report.json"

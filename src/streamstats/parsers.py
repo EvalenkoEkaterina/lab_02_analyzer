@@ -2,7 +2,11 @@ import csv
 import json
 import logging
 from datetime import datetime, timezone
+
 from .errors import InvalidEventError, InvalidTimestampError
+
+logger = logging.getLogger(__name__)
+
 
 def detect_separator(header_line):
     """
@@ -61,7 +65,7 @@ def parse_csv(path, skip_invalid=False):
                 yield make_event(raw, reader.line_num, path)
             except InvalidEventError as error:
                 if skip_invalid:
-                    logging.warning(str(error))
+                    logger.warning(str(error))
                     yield None
                 else:
                     raise
@@ -104,7 +108,7 @@ def parse_jsonl(path, skip_invalid=False):
 
             except InvalidEventError as error:
                 if skip_invalid:
-                    logging.warning(str(error))
+                    logger.warning(str(error))
                     yield None
                 else:
                     raise
@@ -136,7 +140,7 @@ def make_event(raw, line_number, path):
         raise InvalidEventError(f"{where}: запись не является объектом")
     
     timestamp_raw = raw.get("timestamp")
-    if not isinstance(timestamp_raw, str) or not timestamp_raw:
+    if not isinstance(timestamp_raw, str) or not timestamp_raw.strip():
         raise InvalidTimestampError(f"{where}: поле timestamp пустое или отсутствует")
     try:
         timestamp = datetime.fromisoformat(timestamp_raw)
@@ -145,9 +149,8 @@ def make_event(raw, line_number, path):
     except ValueError as e:
         raise InvalidTimestampError(f"{where}: поле timestamp, неверная дата {timestamp_raw!r}") from e
 
-
     level = raw.get("level")
-    if not isinstance(level, str) or level not in LEVELS:
+    if not isinstance(level, str) or level not in LEVELS :
         raise InvalidEventError(f"{where}: поле level неверное: {level!r}")
 
     source = raw.get("source")

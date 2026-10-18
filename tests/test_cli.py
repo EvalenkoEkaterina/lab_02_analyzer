@@ -1,7 +1,7 @@
 import json
 import subprocess
 import sys
-import pytest
+
 
 def test_cli_csv(tmp_path):
     file = tmp_path / "events.csv"
@@ -12,7 +12,8 @@ def test_cli_csv(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'csv'],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert result.returncode == 0
 
@@ -27,7 +28,8 @@ def test_cli_output(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'csv', '--output', str(output)],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert output.exists() == True
     data = json.loads(output.read_text(encoding="utf-8"))
@@ -46,7 +48,8 @@ def test_cli_output_json_skip_invalid(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'jsonl', '--output', str(output), '--skip-invalid'],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert result.returncode == 0
     assert output.exists()
@@ -67,7 +70,8 @@ def test_cli_without_skip_invalid(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'jsonl', '--output', str(output)],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert result.returncode == 2
     assert "level" in result.stderr  
@@ -83,7 +87,8 @@ def test_cli_without_format(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format'],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert result.returncode == 2
     assert 'format' in result.stderr
@@ -100,7 +105,8 @@ def test_cli_same_input_output(tmp_path):
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'csv', '--output', str(output)],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     original = file.read_text(encoding="utf-8")
     assert result.returncode == 2
@@ -108,11 +114,11 @@ def test_cli_same_input_output(tmp_path):
     assert file.read_text(encoding="utf-8") == original
 
 def test_cli_missing_file(tmp_path):
-    file = tmp_path / "missing.jsonl"
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', 'missing.json', '--format', 'jsonl'],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
     assert result.returncode == 2
     assert "Ошибка работы с файлом" in result.stderr
@@ -128,7 +134,8 @@ def test_cli_invalid_json_line3(tmp_path):
     result = subprocess.run(
             [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'jsonl'],
             capture_output=True,
-            text=True
+            text=True,
+            check=False
     )
     assert result.returncode == 2
     assert 'неверный JSON' in result.stderr

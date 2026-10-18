@@ -1,5 +1,6 @@
-from streamstats.analysis import cr_stats, add_event, get_report
+from streamstats.analysis import add_event, cr_stats, get_report
 from streamstats.parsers import datetime
+
 
 def test_cr_stats_independent():
     stats1 = cr_stats()

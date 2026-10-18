@@ -1,9 +1,10 @@
-import sys
 import json
-from .analysis import analyze
-from .report import result_report
-from .errors import StreamStatsError, CLIConfigError
+import sys
 from pathlib import Path
+
+from .analysis import analyze
+from .errors import CLIConfigError, StreamStatsError
+from .report import result_report
 
 
 def run():
