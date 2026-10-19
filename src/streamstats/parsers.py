@@ -8,7 +8,7 @@ from .errors import InvalidEventError, InvalidTimestampError
 logger = logging.getLogger(__name__)
 
 
-def detect_separator(header_line):
+def detect_separator(header_line: str) -> str:
     """
     Определяет разделитель CSV-файла по строке заголовка.
     Args:
@@ -22,7 +22,7 @@ def detect_separator(header_line):
             return separator
     return "," 
 
-def parse_csv(path, skip_invalid=False):
+def parse_csv(path, skip_invalid: bool = False):
     """
     Читает CSV-файл построчно и преобразует строки в события.
     Args:
@@ -66,7 +66,7 @@ def parse_csv(path, skip_invalid=False):
                     raise
 
 
-def parse_jsonl(path, skip_invalid=False):
+def parse_jsonl(path, skip_invalid: bool = False):
     """
     Читает JSONL-файл построчно и преобразует строки в события.
     Args:

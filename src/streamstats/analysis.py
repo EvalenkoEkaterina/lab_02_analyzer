@@ -4,7 +4,7 @@ from .errors import UnsupportedFormatError
 from .parsers import parse_csv, parse_jsonl
 
 
-def cr_stats():
+def cr_stats() -> dict:
     return {
         "total_events": 0,
         "levels": Counter(),
@@ -15,7 +15,7 @@ def cr_stats():
         "skipped_events":0,
     }
 
-def add_event(stats, event):
+def add_event(stats: dict, event: dict) -> None:
     """
     Добавляет событие в общую статистику.
     Args:
@@ -47,7 +47,7 @@ def add_event(stats, event):
     stats["first_timestamp"] = min(stats["first_timestamp"], timestamp)
     stats["last_timestamp"] = max(stats["last_timestamp"], timestamp)
 
-def get_report(stats):
+def get_report(stats: dict) -> dict:
     """
     Формирует итоговый отчёт на основе собранной статистики.
     Args:

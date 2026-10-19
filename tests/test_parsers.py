@@ -261,3 +261,19 @@ def test_parse_jsonl_skip_invalid(tmp_path):
     assert events[1] is None
     assert events[2]["level"] == "CRITICAL"
     assert events[2]["source"] == "database"
+
+def test_parse_csv_empty_line(tmp_path):
+    """Проверяет пропуск пустой строки внутри CSV."""
+    file = tmp_path / "events.csv"
+    file.write_text(
+        "timestamp,level,source,message\n"
+        "2026-10-06T11:00:00+00:00,INFO,api,Started\n"
+        "\n"
+        "2026-10-06T11:01:00+00:00,ERROR,db,Failed\n",
+        encoding="utf-8"
+    )
+    events = list(parse_csv(file, skip_invalid=True))
+    assert len(events) == 3
+    assert events[0]["level"] == "INFO"
+    assert events[1] is None
+    assert events[2]["level"] == "ERROR"

@@ -108,13 +108,13 @@ def test_cli_same_input_output(tmp_path):
             "2025-11-15T10:40:50,CRITICAL,server,Started\n"
             "2025-07-05T11:20:00,ERROR,database,Connection failed\n"
         )
+    original = file.read_text(encoding="utf-8")
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', str(file), '--format', 'csv', '--output', str(output)],
         capture_output=True,
         text=True,
         check=False
     )
-    original = file.read_text(encoding="utf-8")
     assert result.returncode == 2
     assert "Нельзя сохранять отчёт поверх входного файла" in result.stderr
     assert file.read_text(encoding="utf-8") == original
