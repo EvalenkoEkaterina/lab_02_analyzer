@@ -134,3 +134,34 @@ def test_analyze_full(tmp_path):
     ]
     assert report["first_timestamp"] == "2023-01-05T08:00:00+00:00"
     assert report["last_timestamp"] == "2026-02-09T15:30:00+00:00"
+
+def test_analyze_empty_csv(tmp_path):
+    """Проверяет обработку пустого CSV-файла."""
+    file = tmp_path / "empty.csv"
+    file.write_text("", encoding="utf-8")
+
+    report = analyze([file], "csv")
+
+    assert report["total_events"] == 0
+    assert report["skipped_events"] == 0
+    assert report["levels"] == {}
+    assert report["sources"] == {}
+    assert report["top_errors"] == []
+    assert report["first_timestamp"] is None
+    assert report["last_timestamp"] is None
+
+
+def test_analyze_empty_jsonl(tmp_path):
+    """Проверяет обработку пустого JSONL-файла."""
+    file = tmp_path / "empty.jsonl"
+    file.write_text("", encoding="utf-8")
+
+    report = analyze([file], "jsonl")
+
+    assert report["total_events"] == 0
+    assert report["skipped_events"] == 0
+    assert report["levels"] == {}
+    assert report["sources"] == {}
+    assert report["top_errors"] == []
+    assert report["first_timestamp"] is None
+    assert report["last_timestamp"] is None
