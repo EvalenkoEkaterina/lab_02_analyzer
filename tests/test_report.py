@@ -4,6 +4,7 @@ from streamstats.report import result_report
 
 
 def test_result_report(tmp_path):
+    """Проверяет сохранение JSON-отчёта в файл."""
     file = tmp_path / "report.json"
     report = {"total_events": 5}
     result_report(report, file)
@@ -12,6 +13,7 @@ def test_result_report(tmp_path):
     assert saved == report
 
 def test_result_report2(tmp_path):
+    """Проверяет сохранение кириллицы в JSON-отчёте."""
     file = tmp_path / "report.json"
     report = {
         "total_events": 2,

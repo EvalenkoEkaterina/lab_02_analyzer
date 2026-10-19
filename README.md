@@ -232,33 +232,48 @@ PYTHONPATH=src python -m streamstats --help
 ```json
 {
     "skipped_events": 0,
-    "total_events": 8,
+    "total_events": 20,
     "levels": {
-        "INFO": 2,
-        "CRITICAL": 1,
-        "ERROR": 3,
-        "DEBUG": 1,
-        "WARNING": 1
+        "INFO": 4,
+        "CRITICAL": 4,
+        "ERROR": 7,
+        "DEBUG": 2,
+        "WARNING": 3
     },
     "sources": {
-        "worker": 2,
-        "auth": 2,
-        "db": 2,
-        "api": 1,
-        "cache": 1
+        "worker": 3,
+        "auth": 4,
+        "db": 4,
+        "api": 3,
+        "cache": 2,
+        "payments": 2,
+        "search": 1,
+        "frontend": 1
     },
     "top_errors": [
         {
             "source": "auth",
-            "count": 2
+            "count": 4
         },
         {
             "source": "db",
+            "count": 3
+        },
+        {
+            "source": "payments",
             "count": 2
+        },
+        {
+            "source": "api",
+            "count": 1
+        },
+        {
+            "source": "search",
+            "count": 1
         }
     ],
     "first_timestamp": "2026-10-06T11:08:00+00:00",
-    "last_timestamp": "2026-10-06T11:15:00+00:00"
+    "last_timestamp": "2026-10-06T11:27:00+00:00"
 }
 ```
 

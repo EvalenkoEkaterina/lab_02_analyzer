@@ -4,6 +4,7 @@ import sys
 
 
 def test_cli_csv(tmp_path):
+    """Проверяет успешный запуск анализа CSV через CLI."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source,message\n"
@@ -18,6 +19,7 @@ def test_cli_csv(tmp_path):
     assert result.returncode == 0
 
 def test_cli_output(tmp_path):
+    """Проверяет сохранение JSON-отчёта через параметр --output."""
     file = tmp_path / "events.csv"
     output = tmp_path / "result.json"
     file.write_text(
@@ -37,6 +39,7 @@ def test_cli_output(tmp_path):
     assert data["total_events"]== 2
 
 def test_cli_output_json_skip_invalid(tmp_path):
+    """Проверяет пропуск ошибочной записи JSONL и сохранение отчёта."""
     file = tmp_path / "events.json"
     output = tmp_path / "result.json"
     file.write_text(
@@ -59,6 +62,7 @@ def test_cli_output_json_skip_invalid(tmp_path):
 
 
 def test_cli_without_skip_invalid(tmp_path):
+    """Проверяет остановку анализа на ошибочной записи без --skip-invalid."""
     file = tmp_path / "events.jsonl"
     output = tmp_path / "result.json"
     file.write_text(
@@ -78,6 +82,7 @@ def test_cli_without_skip_invalid(tmp_path):
     assert "строка 2" in result.stderr
 
 def test_cli_without_format(tmp_path):
+    """Проверяет ошибку при отсутствии значения параметра --format."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source,message\n"
@@ -95,6 +100,7 @@ def test_cli_without_format(tmp_path):
 
 
 def test_cli_same_input_output(tmp_path):
+    """Проверяет запрет сохранения отчёта поверх входного файла."""
     file = tmp_path / "events.csv"
     output = tmp_path / "events.csv"
     file.write_text(
@@ -114,6 +120,7 @@ def test_cli_same_input_output(tmp_path):
     assert file.read_text(encoding="utf-8") == original
 
 def test_cli_missing_file(tmp_path):
+    """Проверяет ошибку при отсутствии входного файла."""
     result = subprocess.run(
         [sys.executable, '-m', 'streamstats', 'analyze', 'missing.json', '--format', 'jsonl'],
         capture_output=True,
@@ -124,6 +131,7 @@ def test_cli_missing_file(tmp_path):
     assert "Ошибка работы с файлом" in result.stderr
 
 def test_cli_invalid_json_line3(tmp_path):
+    """Проверяет сообщение об ошибке JSON в третьей строке."""
     file = tmp_path / "events.jsonl"
     file.write_text(
         '{"timestamp":"2024-04-15T10:00:00","level":"INFO","source":"server","message":"Started"}\n'

@@ -6,3 +6,15 @@
 {"timestamp": "2026-10-06T11:13:00+00:00", "level": "ERROR", "source": "db", "message": "Query timeout"}
 {"timestamp": "2026-10-06T11:14:00+00:00", "level": "INFO", "source": "worker", "message": "Задача выполнена"}
 {"timestamp": "2026-10-06T11:15:00+00:00", "level": "ERROR", "source": "auth", "message": "Invalid token"}
+{"timestamp":"2026-10-06T11:16:00+00:00","level":"INFO","source":"api","message":"Пользователь успешно вошёл"}
+{"timestamp":"2026-10-06T11:17:00+00:00","level":"ERROR","source":"db","message":"Ошибка подключения к базе данных"}
+{"timestamp":"2026-10-06T11:18:00+00:00","level":"CRITICAL","source":"auth","message":"Обнаружена подозрительная активность"}
+{"timestamp":"2026-10-06T11:19:00+00:00","level":"WARNING","source":"cache","message":"Кэш почти заполнен"}
+{"timestamp":"2026-10-06T11:20:00+00:00","level":"DEBUG","source":"worker","message":"Начало обработки задачи"}
+{"timestamp":"2026-10-06T11:21:00+00:00","level":"ERROR","source":"payments","message":"Ошибка проведения платежа"}
+{"timestamp":"2026-10-06T11:22:00+00:00","level":"CRITICAL","source":"search","message":"Поисковый сервис недоступен"}
+{"timestamp":"2026-10-06T11:23:00+00:00","level":"INFO","source":"frontend","message":"Страница успешно загружена"}
+{"timestamp":"2026-10-06T11:24:00+00:00","level":"ERROR","source":"api","message":"Ошибка обработки запроса"}
+{"timestamp":"2026-10-06T11:25:00+00:00","level":"WARNING","source":"db","message":"Медленный запрос к базе данных"}
+{"timestamp":"2026-10-06T11:26:00+00:00","level":"ERROR","source":"auth","message":"Ошибка проверки пароля"}
+{"timestamp":"2026-10-06T11:27:00+00:00","level":"CRITICAL","source":"payments","message":"Платёжный сервис недоступен"}

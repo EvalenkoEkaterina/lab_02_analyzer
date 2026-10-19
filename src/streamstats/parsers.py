@@ -11,10 +11,8 @@ logger = logging.getLogger(__name__)
 def detect_separator(header_line):
     """
     Определяет разделитель CSV-файла по строке заголовка.
-
     Args:
         header_line: Первая строка файла с названиями колонок.
-
     Returns:
         str: Найденный разделитель (";", "\t" или ",").
              Если ";" и "\t" отсутствуют, возвращает ",".
@@ -27,17 +25,14 @@ def detect_separator(header_line):
 def parse_csv(path, skip_invalid=False):
     """
     Читает CSV-файл построчно и преобразует строки в события.
-
     Args:
         path: Путь к CSV-файлу.
         skip_invalid: Если True, пропускает некорректные записи.
                       Если False, вызывает исключение при ошибке.
-
     Yields:
         dict: Проверенное событие с полями timestamp, level,
               source и message.
         None: Если запись некорректна и skip_invalid=True.
-
     Raises:
         InvalidEventError: Если отсутствуют обязательные колонки
                            или запись некорректна при skip_invalid=False.
@@ -74,17 +69,14 @@ def parse_csv(path, skip_invalid=False):
 def parse_jsonl(path, skip_invalid=False):
     """
     Читает JSONL-файл построчно и преобразует строки в события.
-
     Args:
         path: Путь к JSONL-файлу.
         skip_invalid: Если True, пропускает некорректные записи.
                       Если False, вызывает исключение при ошибке.
-
     Yields:
         dict: Проверенное событие с полями timestamp, level,
               source и message.
         None: Если запись некорректна и skip_invalid=True.
-
     Raises:
         InvalidEventError: Если строка пустая, содержит неверный JSON
                            или некорректные данные при skip_invalid=False.
@@ -117,17 +109,14 @@ LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
 def make_event(raw, line_number, path):
     """
     Проверяет данные события и преобразует их в нужный формат.
-
     Args:
         raw: Словарь с исходными данными события.
         line_number: Номер строки в файле.
         path: Путь к файлу.
-
     Returns:
         dict: Проверенное событие с полями timestamp, level,
               source и message. Поле timestamp преобразуется
               в объект datetime.
-
     Raises:
         InvalidEventError: Если запись не является словарём,
                            уровень события неверный или поля

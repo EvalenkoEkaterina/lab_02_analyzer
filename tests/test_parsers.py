@@ -6,6 +6,7 @@ from streamstats.parsers import detect_separator, make_event, parse_csv, parse_j
 
 #положительный тест для make_event level
 def test_make_event_valid_level():
+    """Проверяет обработку корректного уровня события."""
     raw = {"timestamp": "2026-09-06T13:13:00",
         "level": "DEBUG",
         "source": "db",
@@ -13,8 +14,9 @@ def test_make_event_valid_level():
     event = make_event(raw, 1, "events.csv")
     assert event["level"] == "DEBUG"
 
-#отрицательный тест для make_event 
+#отрицательный тест для make_event level
 def test_make_event_invalid_level():
+    """Проверяет ошибку при недопустимом уровне события."""
     raw = {"timestamp": "2026-10-06T11:08:00",
         "level": "ERRROR",
         "source": "api",
@@ -25,6 +27,7 @@ def test_make_event_invalid_level():
 
 #положительный тест для make_event timestamp
 def test_make_event_valid_timestamp():
+    """Проверяет обработку корректной даты и времени."""
     raw = {
         "timestamp": "2024-01-06T11:01:00",
         "level": "INFO",
@@ -36,6 +39,7 @@ def test_make_event_valid_timestamp():
 
 #отрицательные тесты для timestamp make_event
 def test_invalid_timestamp():
+    """Проверяет ошибку при некорректной дате."""
     raw = { "timestamp": "2016-99-56",
         "level": "ERROR",
         "source": "worker",
@@ -44,6 +48,7 @@ def test_invalid_timestamp():
         make_event(raw, 1, "events.csv")
 
 def test_empty_timestamp():
+    """Проверяет ошибку при пустом поле timestamp."""
     raw = {"timestamp": "",
         "level": "WARNING",
         "source": "payment",
@@ -54,6 +59,7 @@ def test_empty_timestamp():
         make_event(raw, 1, "events.csv")
 
 def test_missing_timestamp():
+    """Проверяет ошибку при отсутствии поля timestamp."""
     raw = {
         "level": "DEBUG",
         "source": "db",
@@ -64,6 +70,7 @@ def test_missing_timestamp():
 
 #положительный тест для make_event source
 def test_valid_source():
+    """Проверяет обработку корректного источника события."""
     raw = {
         "timestamp": "2021-12-06T07:15:00",
         "level": "CRITICAL",
@@ -75,6 +82,7 @@ def test_valid_source():
 
 #отрицательные тесты для make_event source
 def test_empty_source():
+    """Проверяет ошибку при пустом источнике события."""
     raw = {
         "timestamp": "2014-04-05T04:01:00",
         "level": "WARNING",
@@ -85,6 +93,7 @@ def test_empty_source():
         make_event(raw, 1, "events.csv")
 
 def test_spaces_source():
+    """Проверяет ошибку при источнике из одних пробелов."""
     raw = {
         "timestamp": "2001-05-01T01:09:15",
         "level": "INFO",
@@ -97,6 +106,7 @@ def test_spaces_source():
 
 #положительные тесты для message
 def test_valid_message():
+    """Проверяет обработку корректного сообщения."""
     raw = {
         "timestamp": "2023-11-09T04:08:27",
         "level": "ERROR",
@@ -107,6 +117,7 @@ def test_valid_message():
     assert event["message"] == "Database connected"
 
 def test_empty_message():
+    """Проверяет допустимость пустого сообщения."""
     raw = {
         "timestamp": "2012-08-07T08:02:22",
         "level": "INFO",
@@ -118,6 +129,7 @@ def test_empty_message():
 
 #отрицательные тсеты для message 
 def test_invalid_message():
+    """Проверяет ошибку при числовом значении message."""
     raw = {
         "timestamp": "2011-09-02T05:07:12",
         "level": "DEBUG",
@@ -128,6 +140,7 @@ def test_invalid_message():
         make_event(raw, 1, "events.jsonl")
 
 def test_missing_message():
+    """Проверяет ошибку при отсутствии поля message."""
     raw = {
         "timestamp": "2022-05-09T10:17:00",
         "level": "INFO",
@@ -138,16 +151,19 @@ def test_missing_message():
 
 #отрицательные тесты дл передачи словаря в make_event
 def test_make_event_invalid_raw_list():
+    """Проверяет ошибку при передаче списка вместо словаря."""
     raw = ["2025-10-12", "INFO", "db", "Задача выполнена"]
     with pytest.raises(InvalidEventError):
         make_event(raw, 1, "events.jsonl")
 
 def test_make_event_invalid_raw_number():
+    """Проверяет ошибку при передаче числа вместо словаря."""
     raw = 215
     with pytest.raises(InvalidEventError):
         make_event(raw, 2, "events.csv")
 
 def test_make_event_invalid_raw_none():
+    """Проверяет ошибку при передаче None вместо словаря."""
     raw = None
     with pytest.raises(InvalidEventError):
         make_event(raw, 3, "events.csv")
@@ -155,15 +171,18 @@ def test_make_event_invalid_raw_none():
 
 #положительный тест для detect_separator
 def test_detect_separator_semicolon():
+    """Проверяет определение разделителя «точка с запятой»."""
     header = "timestamp;level;source;message"
     assert detect_separator(header) == ";"
 
 #отрицательный тест для detect_separator
 def test_detect_separator_invalid():
+    """Проверяет выбор запятой при неизвестном разделителе."""
     header = "timestamp|level|source|message"
     assert detect_separator(header) == ","
 
 def test_parse_csv_valid(tmp_path):
+    """Проверяет чтение корректного CSV-файла."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source,message\n"
@@ -174,6 +193,7 @@ def test_parse_csv_valid(tmp_path):
 
 #положительныq тест parse_csv
 def test_parse_csv_invalid(tmp_path):
+    """Проверяет ошибку при отсутствии обязательной колонки CSV."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source\n"
@@ -184,6 +204,7 @@ def test_parse_csv_invalid(tmp_path):
 
 #отрицательные тесты parse_csv
 def test_parse_csv_invalid_level(tmp_path):
+    """Проверяет ошибку при недопустимом уровне в CSV."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source,message\n"
@@ -194,6 +215,7 @@ def test_parse_csv_invalid_level(tmp_path):
         list(parse_csv(file))
 
 def test_parse_csv_skip_invalid(tmp_path):
+    """Проверяет пропуск ошибки и продолжение чтения CSV."""
     file = tmp_path / "events.csv"
     file.write_text(
         "timestamp,level,source,message\n"
@@ -209,6 +231,7 @@ def test_parse_csv_skip_invalid(tmp_path):
 
 
 def test_parse_jsonl_valid(tmp_path):
+    """Проверяет чтение корректного JSONL-файла."""
     file = tmp_path / "events.jsonl"
     file.write_text(
         '{"timestamp":"2014-07-07T12:09:19","level":"WARNING","source":"payment","message":"Запуск"}\n'
@@ -218,6 +241,7 @@ def test_parse_jsonl_valid(tmp_path):
     assert event["source"] == "payment"
 
 def test_parse_jsonl_invalid(tmp_path):
+    """Проверяет ошибку при нарушении синтаксиса JSON."""
     file = tmp_path / "events.jsonl"
     file.write_text(
         '{"timestamp":"2018-02-09T14:07:19","level":"CRITICAL","source":"api","message":"Started",}\n'
@@ -226,6 +250,7 @@ def test_parse_jsonl_invalid(tmp_path):
         next(parse_jsonl(file))
 
 def test_parse_jsonl_skip_invalid(tmp_path):
+    """Проверяет пропуск ошибки и продолжение чтения JSONL."""
     file = tmp_path / "events.jsonl"
     file.write_text(
         '{"timestamp":"2023-05-12T08:15:00","level":"INFO","source":"api","message":"Started"}\n'

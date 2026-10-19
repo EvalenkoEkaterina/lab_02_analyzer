@@ -3,6 +3,7 @@ from streamstats.parsers import datetime
 
 
 def test_cr_stats_independent():
+    """Проверяет независимость объектов статистики."""
     stats1 = cr_stats()
     stats2 = cr_stats()
     stats1["levels"]["ERROR"] += 1
@@ -10,6 +11,7 @@ def test_cr_stats_independent():
     assert stats2["levels"] == {}
 
 def test_add_event_not_error():
+    """Проверяет учёт события без ошибки."""
     stats = cr_stats()
     event = {
         "timestamp": datetime.fromisoformat("2024-08-12T09:30:00+00:00"),
@@ -22,6 +24,7 @@ def test_add_event_not_error():
     assert stats["errors_sources"]["api"] == 0
 
 def test_add_event_timestamps():
+    """Проверяет определение самого раннего и позднего времени."""
     stats = cr_stats()
     event1 = {
         "timestamp": datetime.fromisoformat("2025-06-10T15:00:00+00:00"),
@@ -42,6 +45,7 @@ def test_add_event_timestamps():
 
 
 def test_get_report_valid():
+    """Проверяет формирование отчёта по корректному событию."""
     stats = cr_stats()
     event = {
          "timestamp": datetime.fromisoformat("2024-08-12T09:30:00+00:00"),
@@ -59,6 +63,7 @@ def test_get_report_valid():
 
 
 def test_get_report_top_errors():
+    """Проверяет сортировку источников по количеству ошибок."""
     stats = cr_stats()
     stats["errors_sources"]["database"] = 3
     stats["errors_sources"]["payments"] = 2
@@ -71,6 +76,7 @@ def test_get_report_top_errors():
     ]
 
 def test_get_report_top_five():
+    """Проверяет ограничение рейтинга пятью источниками."""
     stats = cr_stats()
     stats["errors_sources"].update({
         "database": 6,
@@ -90,6 +96,7 @@ from streamstats.analysis import analyze
 
 
 def test_analyze_full(tmp_path):
+    """Проверяет объединение двух CSV с пропуском неверной записи."""
     file1 = tmp_path / "first.csv"
     file2 = tmp_path / "second.csv"
 
